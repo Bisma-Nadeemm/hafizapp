@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GeneralTaskEntryActivity extends AppCompatActivity {
+public class TaskEntryActivity extends AppCompatActivity {
     private Button buttonSabaq;
     private Button buttonSabaqi;
     private Button buttonManzil;
@@ -28,21 +28,21 @@ public class GeneralTaskEntryActivity extends AppCompatActivity {
         buttonSabaq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GeneralTaskEntryActivity.this, SabaqEntryActivity.class));
+                startActivity(new Intent(TaskEntryActivity.this, SabaqEntryActivity.class));
             }
         });
 
         buttonSabaqi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GeneralTaskEntryActivity.this, SabaqiEntryActivity.class));
+                startActivity(new Intent(TaskEntryActivity.this, SabaqiEntryActivity.class));
             }
         });
 
         buttonManzil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GeneralTaskEntryActivity.this, ManzilEntryActivity.class));
+                startActivity(new Intent(TaskEntryActivity.this, ManzilEntryActivity.class));
             }
         });
     }
