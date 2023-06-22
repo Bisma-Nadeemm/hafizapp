@@ -10,6 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
+
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "students.db";
     private static final int DATABASE_VERSION = 1;
@@ -46,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addStudent(com.example.hafiz.Student student) {
+    public void addStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, student.getName());
@@ -59,8 +74,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<com.example.hafiz.Student> getAllStudents() {
-        List<com.example.hafiz.Student> students = new ArrayList<>();
+    public List<Student> getAllStudents() {
+        List<Student> students = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -79,7 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String sabaq = cursor.getString(sabaqIndex);
             String sabaqi = cursor.getString(sabaqiIndex);
             String manzil = cursor.getString(manzilIndex);
-            com.example.hafiz.Student student = new com.example.hafiz.Student(id,name, age, className,sabaq,sabaqi,manzil);
+            Student student = new Student(id, name, age, className, sabaq, sabaqi, manzil);
             students.add(student);
         }
 
@@ -87,6 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return students;
     }
+
     public List<String> getAllStudentNames() {
         List<String> studentNames = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -103,7 +119,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return studentNames;
     }
-    public void updateStudent(com.example.hafiz.Student student) {
+
+    public void updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, student.getName());
@@ -114,7 +131,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(student.getId())});
         db.close();
     }
-    public void updateStudentSabaqManzil(int studentId, String sabaq,String sabaqi, String manzil) {
+
+    public void updateStudentSabaqManzil(int studentId, String sabaq, String sabaqi, String manzil) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_SABAQ, sabaq);
@@ -123,8 +141,32 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(studentId)});
         db.close();
     }
+
+    public Student searchStudentByName(String name) {
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = COLUMN_NAME + "=?";
+        String[] selectionArgs = {name};
+        Cursor cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex(COLUMN_ID);
+            int ageIndex = cursor.getColumnIndex(COLUMN_AGE);
+            int classIndex = cursor.getColumnIndex(COLUMN_CLASS);
+            int sabaqIndex = cursor.getColumnIndex(COLUMN_SABAQ);
+            int sabaqiIndex = cursor.getColumnIndex(COLUMN_SABAQI);
+            int manzilIndex = cursor.getColumnIndex(COLUMN_MANZIL);
+
+            int id = cursor.getInt(idIndex);
+            int age = cursor.getInt(ageIndex);
+            String className = cursor.getString(classIndex);
+            String sabaq = sabaqIndex != -1 ? cursor.getString(sabaqIndex) : null;
+            String sabaqi = sabaqIndex != -1 ? cursor.getString(sabaqiIndex) : null;
+            String manzil = manzilIndex != -1 ? cursor.getString(manzilIndex) : null;
+
+            Student student = new Student(id, name, age, className, sabaq, sabaqi, manzil);
+            cursor.close();
+            return student;
+        }
+        cursor.close();
+        return null;
+    }
 }
-
-
-
-

@@ -1,4 +1,7 @@
-package com.example.hafiz;
+package com.example.hafizapp;
+
+
+
 
 public class Student {
     private int id;
@@ -15,7 +18,7 @@ public class Student {
         this.age = age;
         this.className = className;
         this.sabaq = sabaq;
-        this.sabaq = sabaqi;
+        this.sabaqi = sabaqi;
         this.manzil = manzil;
     }
     public Student(String name, int age, String className, String sabaq,String sabaqi, String manzil) {
@@ -23,7 +26,7 @@ public class Student {
         this.age = age;
         this.className = className;
         this.sabaq = sabaq;
-        this.sabaq = sabaqi;
+        this.sabaqi = sabaqi;
         this.manzil = manzil;
     }
 
@@ -67,11 +70,11 @@ public class Student {
         this.sabaq = sabaq;
     }
     public String getSabaqi() {
-        return sabaq;
+        return sabaqi;
     }
 
     public void setSabaqi(String sabaqi) {
-        this.sabaq = sabaq;
+        this.sabaqi = sabaqi;
     }
 
     public String getManzil() {
